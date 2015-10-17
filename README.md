@@ -9,7 +9,7 @@
 
 ## Testando no Browser
 
-`ionic serv -lab`
+`ionic serve -lab`
 
 ## Testando no Emulador
 
