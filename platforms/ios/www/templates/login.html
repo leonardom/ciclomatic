@@ -1,0 +1,18 @@
+<ion-view view-title="CicloMatic" name="login-view">
+  <ion-content class="padding">
+      <section>
+        <div class="col header text-center"> 
+          <img src="img/logo.png"/>
+        </div>
+      </section>
+      <div class="list list-inset">
+          <label class="item item-input">
+              <input type="text" placeholder="Nome de usuário" ng-model="data.username">
+          </label>
+          <label class="item item-input">
+              <input type="password" placeholder="Senha de acesso" ng-model="data.password">
+          </label>
+      </div>
+      <button class="button button-block button-calm" ng-click="login(data)">Login</button>
+  </ion-content>
+</ion-view>

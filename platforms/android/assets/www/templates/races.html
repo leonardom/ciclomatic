@@ -1,0 +1,17 @@
+<ion-view view-title="Selecionar Prova">
+  <ion-content class="padding">
+    <ion-radio ng-repeat="race in races"
+      ng-value="race"
+      ng-model="data.selected">
+      <h2>{{race.name}}</h2>
+      <p>{{race.date}}</p>
+    </ion-radio>
+  </ion-content>
+  <ion-footer-bar>
+  <div class="button-bar padding5px">
+    <a class="button button-balanced border-radios2px" ng-click="startRace(data)">
+      <strong>Iniciar Prova</strong>
+    </a>
+  </div>
+</ion-footer-bar>
+</ion-view>

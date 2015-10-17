@@ -1,0 +1,17 @@
+<ion-view view-title="Emparelhar">
+  <ion-content class="padding">
+    <ion-radio ng-repeat="device in getDevices()"
+      ng-value="device"
+      ng-model="data.selected">
+      <h2>{{device.name}}</h2>
+      <p>{{device.id}}</p>
+    </ion-radio>
+  </ion-content>
+  <ion-footer-bar>
+  <div class="button-bar padding5px">
+    <a class="button icon-right ion-play button-balanced border-radios2px" ng-click="startRace(data)">
+      <strong>Iniciar</strong>
+    </a>
+  </div>
+</ion-footer-bar>
+</ion-view>

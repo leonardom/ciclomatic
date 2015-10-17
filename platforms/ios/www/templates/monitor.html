@@ -1,0 +1,29 @@
+<ion-view view-title="{{race.name}}">
+  <ion-content class="padding">
+	  <div class="list list-inset">
+	    <div class="item" ng-repeat="sensor in sensors">
+	    	<div class="row">
+	    		<div class="col col-67">
+	      		<strong>{{sensor.name}}</strong>
+	      	</div>
+	      	<div class="col col-25">
+	       		{{sensor.value}}
+	      	</div>
+	      </div>
+	    </div>
+ 		</div>
+  </ion-content>
+  <ion-footer-bar>
+  <div class="button-bar padding5px">
+	  <a class="button icon-left ion-pause button-energized" ng-click="stop()">
+	  	<strong>Parar</strong>
+	  </a>
+	  <a class="button icon-left ion-medkit button-assertive" ng-click="sos()">
+	  	<strong>SOS</strong>
+	  </a>
+	  <a class="button icon-left ion-chatbox-working button-balanced" ng-click="message()">
+	  	<strong>MSG</strong>
+	  </a>
+	</div>
+</ion-footer-bar>
+</ion-view>
