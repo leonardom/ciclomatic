@@ -24,10 +24,39 @@ angular.module('starter', ['ionic', 'starter.controllers','starter.services','ng
     timeString +=  ":" + (seconds > 9 ? seconds : '0' + seconds);
 
     return timeString;
-}
+  }
 })
 
-.run(function($ionicPlatform) {
+.config(["$httpProvider",function($httpProvider) 
+{
+    $httpProvider.interceptors.push(['$q', function($q) {
+    return {
+            request: function(config) {
+                if (config.data && typeof config.data === 'object') {
+                    // Check https://gist.github.com/brunoscopelliti/7492579 
+                    // for a possible way to implement the serialize function.
+                    config.data = serialize(config.data);
+                }
+                return config || $q.when(config);
+            }
+        };
+    }]);
+
+    var serialize = function(obj, prefix) {
+        // http://stackoverflow.com/questions/1714786/querystring-encoding-of-a-javascript-object
+        var str = [];
+        for(var p in obj) {
+            var k = prefix ? prefix + "[" + p + "]" : p, v = obj[p];
+            str.push(typeof v == "object" ? serialize(v, k) : encodeURIComponent(k) + "=" + encodeURIComponent(v));
+        }
+        return str.join("&");
+    }
+
+}])
+
+.run(function($ionicPlatform, $http) {
+  $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded; charset=UTF-8;";
+
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -53,6 +82,7 @@ angular.module('starter', ['ionic', 'starter.controllers','starter.services','ng
 
   // setup an abstract state for the tabs directive
   // Each tab has its own nav history stack:
+
   .state('login', {
       url: '/login',
       templateUrl: 'templates/login.html',

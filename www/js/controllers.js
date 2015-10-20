@@ -1,6 +1,6 @@
  function mock($cordovaBluetoothSerial) {
     $cordovaBluetoothSerial = {
-      data: '',
+      data: new Date().getTime().toString(),
       isEnabled: function() {
         return new Promise(function(resolve, reject) {
           return resolve(false);
@@ -42,7 +42,15 @@
       },
       start: function($interval) {
         $interval(function() {
-          data = new Date().getTime().toString(); 
+          this.data = '{"bpm":"123",'
+            + '"temperatura":"35",'
+            + '"ar_pressao":"900",'
+            + '"altitude":"123",'
+            + '"temperatura_corporal":"37",'
+            + '"direcao":"180",'
+            + '"ar_umidade":"50",'
+            + '"aceleracao":"10x, 20y, 30z",'
+            + '"giro":"1x, 2y, 3z"}\n';
         }, 1000);
       }
     };
@@ -87,6 +95,7 @@ angular.module('starter.controllers', [])
   });
 
   $scope.startRace = function(data) {
+    console.log(data);
     if (data.selected === undefined) {
       var alertPopup = $ionicPopup.alert({
         title: 'Prova',
@@ -172,7 +181,7 @@ angular.module('starter.controllers', [])
   var startTime = new Date().getTime();
 
   $cordovaBluetoothSerial = mock($cordovaBluetoothSerial);
-  //$cordovaBluetoothSerial.start($interval);
+  $cordovaBluetoothSerial.start($interval);
 
   var readData = $interval(function() {
     $scope.timer = (new Date().getTime() - startTime);
@@ -189,7 +198,6 @@ angular.module('starter.controllers', [])
         );
       }, 
       function (err) {
-        alert('Error:' +err);
       }
     )}, 
     999

@@ -1,8 +1,12 @@
  function mock($cordovaBluetoothSerial) {
-  /*
     $cordovaBluetoothSerial = {
       data: '',
       isEnabled: function() {
+        return new Promise(function(resolve, reject) {
+          return resolve(false);
+        });
+      },
+      isConnected: function() {
         return new Promise(function(resolve, reject) {
           return resolve(false);
         });
@@ -17,6 +21,11 @@
         });        
       },
       connect: function() {
+        return new Promise(function(resolve, reject) {
+          return resolve();
+        });
+      },
+      disconnect: function() {
         return new Promise(function(resolve, reject) {
           return resolve();
         });
@@ -37,7 +46,7 @@
         }, 1000);
       }
     };
-*/
+
   return $cordovaBluetoothSerial;
 }
 
@@ -71,12 +80,11 @@ angular.module('starter.controllers', [])
   $scope.races = [];
   $scope.data = {};
 
-  $scope.races = Races.all();
-  /*
+  //$scope.races = Races.all();
+
   Races.all().then(function(res) {
     $scope.races = res.data;
   });
-  */
 
   $scope.startRace = function(data) {
     if (data.selected === undefined) {
