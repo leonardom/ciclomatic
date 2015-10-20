@@ -3,8 +3,7 @@ String.prototype.endsWith = function(suffix) {
 };
 
 //var $baseUrl = 'http://localhost';
-//var $baseUrl = 'http://192.168.1.109';
-var $baseUrl = 'http://ciclomatic/endpoint';
+var $baseUrl = 'http://192.168.1.109/endpoint';
 
 angular.module('starter.services', [])
 
@@ -74,6 +73,8 @@ angular.module('starter.services', [])
           var lng = position.coords.longitude;
           var alt = position.coords.altitude;
 
+          alt = alt || 0;
+
           var r =/(\d+)[a-z]+,\s*(\d+)[a-z]+,\s*\s*(\d+)[a-z]+/;
 
           var aceleracao = r.exec(obj['aceleracao']);
@@ -99,7 +100,9 @@ angular.module('starter.services', [])
             ar_pressao : obj['ar_pressao']
           };
 
-          $http.post(url, data);
+          $http.post(url, data).then(function (res) {
+            console.log(res.data);
+          });;
       });
   }
 
@@ -138,6 +141,8 @@ angular.module('starter.services', [])
           var lng = position.coords.longitude;
           var alt = position.coords.altitude;
 
+          alt = alt || 0;
+
           var url = $baseUrl + '/msg';
 
           $http.post(
@@ -151,7 +156,6 @@ angular.module('starter.services', [])
               altitude : alt
             }
           ).then(function (res) {
-            console.log(res.data);
             callback(res.data === "1");
           });
         }, function(err) {
@@ -170,6 +174,8 @@ angular.module('starter.services', [])
           var lng = position.coords.longitude;
           var alt = position.coords.altitude;
 
+          alt = alt || 0;
+
           var url = $baseUrl + '/msg';
 
           $http.post(
@@ -183,7 +189,6 @@ angular.module('starter.services', [])
               altitude : alt
             }
           ).then(function (res) {
-            console.log(res.data);
             callback(res.data === "1");
           });
 

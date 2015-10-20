@@ -183,8 +183,12 @@ angular.module('starter.controllers', [])
   $cordovaBluetoothSerial = mock($cordovaBluetoothSerial);
   $cordovaBluetoothSerial.start($interval);
 
-  var readData = $interval(function() {
+  var updateTime = $interval(function() {
     $scope.timer = (new Date().getTime() - startTime);
+  }, 1000);
+
+  var readData = $interval(function() {
+    //$scope.timer = (new Date().getTime() - startTime);
 
     $cordovaBluetoothSerial.available().then(
       function (numBytes) {
@@ -200,7 +204,8 @@ angular.module('starter.controllers', [])
       function (err) {
       }
     )}, 
-    999
+    //999
+    5000
   );
 
   $ionicNavBarDelegate.showBackButton(false);
@@ -216,6 +221,7 @@ angular.module('starter.controllers', [])
     confirmPopup.then(function(res) {
       if(res) {
         $interval.cancel(readData);
+        $interval.cancel(updateTime);
         $state.go('races', {}, {reload: true});
         $ionicNavBarDelegate.showBackButton(true);
       }
