@@ -1,4 +1,6 @@
  function mock($cordovaBluetoothSerial) {
+    return $cordovaBluetoothSerial;
+    
     $cordovaBluetoothSerial = {
       data: new Date().getTime().toString(),
       isEnabled: function() {
@@ -55,7 +57,7 @@
       }
     };
 
-  return $cordovaBluetoothSerial;
+    return $cordovaBluetoothSerial;
 }
 
 

@@ -3,8 +3,8 @@ String.prototype.endsWith = function(suffix) {
 };
 
 //var $baseUrl = 'http://localhost';
-//var $baseUrl = 'http://192.168.1.109';
-var $baseUrl = 'http://192.168.7.38';
+//var $baseUrl = 'http://172.31.24.18/endpoint';
+var $baseUrl = 'http://192.168.1.109/endpoint';
 
 angular.module('starter.services', [])
 
@@ -23,7 +23,7 @@ angular.module('starter.services', [])
       }
       */
 
-      var url = $baseUrl + '/ciclomatic/endpoint/login';
+      var url = $baseUrl + '/login';
 
       $http.post(
         url, 
@@ -57,12 +57,15 @@ angular.module('starter.services', [])
 
 .service('AppService', function($cordovaGeolocation, $http, Sensors) {
   var user = { id : -1 };
-  var race = {};
+  var race = { id : -1 };
   var device = {};
   var data = "";
 
-  function postData(data) {
-    var url = $baseUrl + '/ciclomatic/endpoint/dados';
+  function postData(obj) {
+    
+    var url = $baseUrl + '/dados';
+
+    var options = {enableHighAccuracy: true};
 
     $cordovaGeolocation
       .getCurrentPosition(options)
@@ -71,49 +74,41 @@ angular.module('starter.services', [])
           var lng = position.coords.longitude;
           var alt = position.coords.altitude;
 
-          data = {
-            'bmp' : '123',
-            'temperatura' : '35',
-            'pressao' : '900',
-            'altitude' : '123',
-            'temperatura_corporal' : '37',
-            'direcao' : '180',
-            'aceleracao' : '10x, 20y, 30z',
-            'giro' : '1x, 2y, 3z'
-          };
+          alt = alt || 0;
 
           var r =/(\d+)[a-z]+,\s*(\d+)[a-z]+,\s*\s*(\d+)[a-z]+/;
 
-          var aceleracao = r.exec(data['aceleracao']);
-          var giro = r.exec(data['giro']);
+          var aceleracao = r.exec(obj['aceleracao']);
+          var giro = r.exec(obj['giro']);
 
-          var obj = {
+          var data = {
             id_ciclista : user.id,
-            id_prova : race.id,
-            bpm : data['bpm'],
-            corp_temperatura : data['temperatura_corporal'],
+            id_prova : race.id_prova,
+            bpm : obj['bpm'],
+            corp_temperatura : obj['temperatura_corporal'],
             giro_x : giro[1],
             giro_y : giro[2],
             giro_z : giro[3],
             acel_x : aceleracao[1],
             acel_y : aceleracao[2],
             acel_z : aceleracao[3],
-            direcao : data['direcao'],
+            direcao : obj['direcao'],
             lat : lat,
             lon : lng,
             altitude : alt,
-            ar_temperatura : data['temperatura'],
-            ar_umidade : data['umidade_ar'],
-            ar_pressao : data['pressao_atmosferica']
+            ar_temperatura : obj['temperatura'],
+            ar_umidade : obj['ar_umidade'],
+            ar_pressao : obj['ar_pressao']
           };
 
-          $http.post(url, obj);
+          $http.post(url, data).then(function (res) {
+            console.log(res.data);
+          });;
       });
   }
 
   return {
     setUser: function(value) {
-      console.log(value);
       user = value;
     },
 
@@ -147,24 +142,26 @@ angular.module('starter.services', [])
           var lng = position.coords.longitude;
           var alt = position.coords.altitude;
 
-          var url = $baseUrl + '/mensagem.php';
+          alt = alt || 0;
+
+          var url = $baseUrl + '/msg';
 
           $http.post(
             url, 
             {
               id_ciclista : user.id, 
-              id_prova : race.id,
+              id_prova : race.id_prova,
               tipo : 'SOCORRO',
               lat : lat,
               lon : lng,
               altitude : alt
             }
           ).then(function (res) {
-            console.log(res.data);
-            callback(res.data === "ok");
+            callback(res.data === "1");
           });
         }, function(err) {
           console.log('Error: ' + err);
+          callback(false);
         });
     },
 
@@ -178,31 +175,35 @@ angular.module('starter.services', [])
           var lng = position.coords.longitude;
           var alt = position.coords.altitude;
 
-          var url = $baseUrl + '/mensagem.php';
+          alt = alt || 0;
+
+          var url = $baseUrl + '/msg';
 
           $http.post(
             url, 
             {
               id_ciclista : user.id, 
-              id_prova : race.id,
+              id_prova : race.id_prova,
               tipo : tipo,
               lat : lat,
               lon : lng,
               altitude : alt
             }
           ).then(function (res) {
-            console.log(res.data);
-            callback(res.data === "ok");
+            callback(res.data === "1");
           });
 
         }, function(err) {
           console.log('Error: ' + err);
+          callback(false);
         });
     },
 
     process: function(chunk) {
       if (chunk) {
         data += chunk;
+
+        console.log(data);
 
         if (data.endsWith('\n')) {
 
@@ -212,20 +213,25 @@ angular.module('starter.services', [])
           //limpa
           data = "";
 
-          //quebra os blocos
-          var tmp = data.split("\n");
+          //verifica se tem mais de um bloco
+          if (tmp.indexOf('\n') > -1) {
+            //quebra os blocos
+            tmp = tmp.split("\n");
 
-          //se tiver mais de um bloco
-          //usa o último
-          if (tmp.length > 1) {
-            tmp = tmp[tmp.length-1];
-          } else {
-            tmp = tmp[0];
+            //se tiver mais de um bloco
+            //usa o último que é mais atualizado
+            if (tmp.length > 1) {
+              tmp = tmp[tmp.length-1];
+            } else {
+              tmp = tmp[0];
+            }
           }
 
-          Sensors.onData(tmp);
+          var obj = JSON.parse(tmp);
 
-          postData(tmp);
+          Sensors.onData(obj);
+
+          postData(obj);
 
           return;
         }
@@ -243,7 +249,7 @@ angular.module('starter.services', [])
 
   return {
     all: function() {
-      return $http.get($baseUrl + "/ciclomatic/endpoint/provas");
+      return $http.get($baseUrl + "/provas");
       //return races;
     }
   };
@@ -252,19 +258,18 @@ angular.module('starter.services', [])
 .factory('Sensors', function() {
   // Might use a resource here that returns a JSON array
 
-  // Some fake testing data
   var sensors = [
   {
-    id: 'bmp',
-    name: 'BMP',
+    id: 'bpm',
+    name: 'BPM',
     value: '',
   }, {
     id: 'temperatura',
     name: 'Temperatura',
     value: '',
   }, {
-    id: 'pressao',
-    name: 'Pressão',
+    id: 'ar_pressao',
+    name: 'Pressão Ar',
     value: '',
   }, {
     id: 'altitude',
@@ -293,16 +298,12 @@ angular.module('starter.services', [])
       data = 'Error:' + reason;
     },
     onData: function(obj) {
-      var obj = JSON.parse(data);
 
       for (var i = 0; i < sensors.length; i++) {
         if (sensors[i].id in obj) {
           sensors[i].value = obj[sensors[i].id];
         }
       }
-    },
-    data: function() {
-      return data;
     },
     all: function() {
       return sensors;

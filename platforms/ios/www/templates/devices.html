@@ -1,6 +1,6 @@
-<ion-view view-title="Emparelhar">
+<ion-view view-title="Selecionar dispositivo">
   <ion-content class="padding">
-    <ion-radio ng-repeat="device in getDevices()"
+    <ion-radio ng-repeat="device in devices"
       ng-value="device"
       ng-model="data.selected">
       <h2>{{device.name}}</h2>
@@ -9,8 +9,8 @@
   </ion-content>
   <ion-footer-bar>
   <div class="button-bar padding5px">
-    <a class="button icon-right ion-play button-balanced border-radios2px" ng-click="startRace(data)">
-      <strong>Iniciar</strong>
+    <a class="button button-positive border-radios2px" ng-click="connect(data)">
+      <strong>Conectar</strong>
     </a>
   </div>
 </ion-footer-bar>

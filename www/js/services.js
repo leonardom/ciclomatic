@@ -3,7 +3,9 @@ String.prototype.endsWith = function(suffix) {
 };
 
 //var $baseUrl = 'http://localhost';
-var $baseUrl = 'http://192.168.1.109/endpoint';
+//var $baseUrl = 'http://172.31.24.18/endpoint';
+//var $baseUrl = 'http://192.168.1.109/endpoint';
+var $baseUrl = 'http://172.31.20.23/endpoint';
 
 angular.module('starter.services', [])
 

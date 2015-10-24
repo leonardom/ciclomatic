@@ -2,31 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
   <dict>
-    <key>NSAppTransportSecurity</key>
-    <dict>
-      <key>NSExceptionDomains</key>
-      <dict>
-        <key>192.168.1.109</key>
-        <dict>
-          <key>NSIncludesSubdomains</key>
-          <true/>
-          <key>NSExceptionAllowsInsecureHTTPLoads</key>
-          <true/>
-          <key>NSExceptionRequiresForwardSecrecy</key>
-          <true/>
-          <key>NSExceptionMinimumTLSVersion</key>
-          <string>TLSv1.2</string>
-          <key>NSThirdPartyExceptionAllowsInsecureHTTPLoads</key>
-          <true/>
-          <key>NSThirdPartyExceptionRequiresForwardSecrecy</key>
-          <true/>
-          <key>NSThirdPartyExceptionMinimumTLSVersion</key>
-          <string>TLSv1.2</string>
-          <key>NSRequiresCertificateTransparency</key>
-          <false/>
-        </dict>
-      </dict>
-    </dict>
     <key>CFBundleDevelopmentRegion</key>
     <string>English</string>
     <key>CFBundleDisplayName</key>
@@ -81,16 +56,43 @@
     <string>${PRODUCT_NAME}</string>
     <key>CFBundlePackageType</key>
     <string>APPL</string>
+    <key>CFBundleShortVersionString</key>
+    <string>0.0.1</string>
     <key>CFBundleSignature</key>
     <string>????</string>
     <key>CFBundleVersion</key>
     <string>0.0.1</string>
-    <key>CFBundleShortVersionString</key>
-    <string>0.0.1</string>
     <key>LSRequiresIPhoneOS</key>
     <true/>
-    <key>NSMainNibFile</key>
+    <key>NSAppTransportSecurity</key>
+    <dict>
+      <key>NSExceptionDomains</key>
+      <dict>
+        <key>192.168.1.109</key>
+        <dict>
+          <key>NSExceptionAllowsInsecureHTTPLoads</key>
+          <true/>
+          <key>NSExceptionMinimumTLSVersion</key>
+          <string>TLSv1.2</string>
+          <key>NSExceptionRequiresForwardSecrecy</key>
+          <true/>
+          <key>NSIncludesSubdomains</key>
+          <true/>
+          <key>NSRequiresCertificateTransparency</key>
+          <false/>
+          <key>NSThirdPartyExceptionAllowsInsecureHTTPLoads</key>
+          <true/>
+          <key>NSThirdPartyExceptionMinimumTLSVersion</key>
+          <string>TLSv1.2</string>
+          <key>NSThirdPartyExceptionRequiresForwardSecrecy</key>
+          <true/>
+        </dict>
+      </dict>
+    </dict>
+    <key>NSLocationWhenInUseUsageDescription</key>
     <string></string>
+    <key>NSMainNibFile</key>
+    <string>MainViewController</string>
     <key>NSMainNibFile~ipad</key>
     <string></string>
     <key>UILaunchImages</key>
@@ -196,7 +198,5 @@
         <string>{768, 1024}</string>
       </dict>
     </array>
-    <key>NSLocationWhenInUseUsageDescription</key>
-    <string></string>
   </dict>
 </plist>
