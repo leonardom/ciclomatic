@@ -2,9 +2,7 @@ String.prototype.endsWith = function(suffix) {
   return this.indexOf(suffix, this.length - suffix.length) !== -1;
 };
 
-//var $baseUrl = 'http://localhost';
-//var $baseUrl = 'http://172.31.24.18/endpoint';
-var $baseUrl = 'http://192.168.1.109/endpoint';
+var $baseUrl = 'http://192.168.137.176/ciclomatic_web/endpoint';
 
 angular.module('starter.services', [])
 
@@ -260,42 +258,42 @@ angular.module('starter.services', [])
 
   var sensors = [
   {
-    id: 'bpm',
+    id: 'BMP',
     name: 'BPM',
     value: '',
   }, {
-    id: 'temperatura',
+    id: 'Temperatura',
     name: 'Temperatura',
     value: '',
   }, {
-    id: 'ar_pressao',
+    id: 'Pressao_Atmosferica',
     name: 'Pressão Ar',
     value: '',
   }, {
-    id: 'altitude',
+    id: 'Altitude',
     name: 'Altitude',
     value: '',
   }, {
-    id: 'temperatura_corporal',
+    id: 'Temperatura_Corporal',
     name: 'Temp. Corp.',
     value: '',
   }, {
-    id: 'direcao',
+    id: 'Bussola',
     name: 'Bussola',
     value: '',
   }, {
-    id: 'aceleracao',
+    id: 'Aceleracao',
     name: 'Aceleração',
     value: '',
   }, {
-    id: 'giro',
+    id: 'Giro',
     name: 'Giro',
     value: '',
   }];
 
   return {
     onError: function(reason) {
-      data = 'Error:' + reason;
+      alert('Error:' + reason);
     },
     onData: function(obj) {
 

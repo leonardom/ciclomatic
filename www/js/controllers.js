@@ -1,6 +1,6 @@
  function mock($cordovaBluetoothSerial) {
     return $cordovaBluetoothSerial;
-    
+
     $cordovaBluetoothSerial = {
       data: new Date().getTime().toString(),
       isEnabled: function() {
@@ -89,8 +89,6 @@ angular.module('starter.controllers', [])
 .controller('RaceCtrl', function($scope, $state, $ionicPopup, Races, AppService) {
   $scope.races = [];
   $scope.data = {};
-
-  //$scope.races = Races.all();
 
   Races.all().then(function(res) {
     $scope.races = res.data;
@@ -182,8 +180,8 @@ angular.module('starter.controllers', [])
 
   var startTime = new Date().getTime();
 
-  $cordovaBluetoothSerial = mock($cordovaBluetoothSerial);
-  $cordovaBluetoothSerial.start($interval);
+  //$cordovaBluetoothSerial = mock($cordovaBluetoothSerial);
+  //$cordovaBluetoothSerial.start($interval);
 
   var updateTime = $interval(function() {
     $scope.timer = (new Date().getTime() - startTime);
@@ -206,8 +204,8 @@ angular.module('starter.controllers', [])
       function (err) {
       }
     )}, 
-    //999
-    5000
+    999
+    //5000
   );
 
   $ionicNavBarDelegate.showBackButton(false);
