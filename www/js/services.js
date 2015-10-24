@@ -2,7 +2,8 @@ String.prototype.endsWith = function(suffix) {
   return this.indexOf(suffix, this.length - suffix.length) !== -1;
 };
 
-var $baseUrl = 'http://192.168.137.176/ciclomatic_web/endpoint';
+var $baseUrl = 'http://192.168.137.97/endpoint';
+//var $baseUrl = 'http://192.168.137.231/ciclomatic_web/endpoint';
 
 angular.module('starter.services', [])
 
@@ -78,11 +79,12 @@ angular.module('starter.services', [])
 
           var aceleracao = r.exec(obj['aceleracao']);
           var giro = r.exec(obj['giro']);
+          var bpm = obj['bmp'] || "0";
 
           var data = {
             id_ciclista : user.id,
             id_prova : race.id_prova,
-            bpm : obj['bpm'],
+            bpm : bpm,
             corp_temperatura : obj['temperatura_corporal'],
             giro_x : giro[1],
             giro_y : giro[2],
@@ -95,12 +97,12 @@ angular.module('starter.services', [])
             lon : lng,
             altitude : alt,
             ar_temperatura : obj['temperatura'],
-            ar_umidade : obj['ar_umidade'],
-            ar_pressao : obj['ar_pressao']
+            ar_umidade : 0, //obj['ar_umidade'],
+            ar_pressao : obj['pressao_atmosferica']
           };
 
           $http.post(url, data).then(function (res) {
-            console.log(res.data);
+            //console.log(res.data);
           });;
       });
   }
@@ -258,35 +260,35 @@ angular.module('starter.services', [])
 
   var sensors = [
   {
-    id: 'BMP',
+    id: 'bmp',
     name: 'BPM',
     value: '',
   }, {
-    id: 'Temperatura',
+    id: 'temperatura',
     name: 'Temperatura',
     value: '',
   }, {
-    id: 'Pressao_Atmosferica',
+    id: 'pressao_atmosferica',
     name: 'Pressão Ar',
     value: '',
   }, {
-    id: 'Altitude',
+    id: 'altitude',
     name: 'Altitude',
     value: '',
   }, {
-    id: 'Temperatura_Corporal',
+    id: 'temperatura_corporal',
     name: 'Temp. Corp.',
     value: '',
   }, {
-    id: 'Bussola',
+    id: 'direcao',
     name: 'Bussola',
     value: '',
   }, {
-    id: 'Aceleracao',
+    id: 'aceleracao',
     name: 'Aceleração',
     value: '',
   }, {
-    id: 'Giro',
+    id: 'giro',
     name: 'Giro',
     value: '',
   }];
@@ -296,7 +298,6 @@ angular.module('starter.services', [])
       alert('Error:' + reason);
     },
     onData: function(obj) {
-
       for (var i = 0; i < sensors.length; i++) {
         if (sensors[i].id in obj) {
           sensors[i].value = obj[sensors[i].id];
